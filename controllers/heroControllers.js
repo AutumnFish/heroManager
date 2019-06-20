@@ -51,5 +51,18 @@ module.exports = {
       code:400,
       msg:'新增失败,请检查'
     })
+  },
+  delete(req,res){
+    // res.send("/delete")
+    if(heroModel.delete({id:req.query.id})){
+      return res.send({
+        code:200,
+        msg:"删除成功"
+      })
+    }
+    res.send({
+      code:400,
+      msg:'删除失败'
+    })
   }
 }

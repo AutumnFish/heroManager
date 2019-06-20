@@ -24,7 +24,6 @@ module.exports = {
       return false
     }
   },
-
   all() {
     try {
       const heros = JSON.parse(
@@ -60,5 +59,23 @@ module.exports = {
   },
   add({ name, skill, icon }) {
     return this.save({ name, skill, icon })
+  },
+  delete({ id }) {
+    try {
+      let heros = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '../data/hero.json'), 'utf8')
+      )
+      let deleteHero = heros.filter(v => {
+        return v.id == id
+      })[0]
+      deleteHero.isDelete = true
+      fs.writeFileSync(
+        path.join(__dirname, '../data/hero.json'),
+        JSON.stringify(heros)
+      )
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }

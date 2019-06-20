@@ -83,5 +83,28 @@ router.post(
   },
   heroController.add
 )
+// 根据id获取英雄
+router.get(
+  '/delete',
+  [
+    // username must be an email
+    check('id')
+      .not()
+      .isEmpty()
+  ],
+  (req, res, next) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req)
+    if (errors.isEmpty()) {
+      return next()
+    }
+    // console.log(errors);
+    res.send({
+      code: 400,
+      msg: 'id不能为空哦，请检查'
+    })
+  },
+  heroController.delete
+)
 
 module.exports = router
