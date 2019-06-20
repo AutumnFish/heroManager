@@ -9,6 +9,7 @@ const app = express()
 // 注册路由
 app.use('/user',userRouter)
 app.use('/hero',heroRouter)
+app.use(express.static('static'))
 
 app.listen(4399,()=>{
   console.log('success');

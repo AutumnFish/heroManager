@@ -3,6 +3,10 @@ const router = express.Router()
 const path = require('path')
 const { check, validationResult } = require('express-validator/check')
 const bodyParser = require('body-parser')
+const multer = require('multer')
+const fs = require('fs')
+// 文件接收
+const upload = multer({ dest: 'static/imgs' })
 
 // 管理器
 const heroController = require(path.join(
@@ -36,6 +40,48 @@ router.get(
     })
   },
   heroController.id
+)
+
+// 新增
+router.post(
+  '/add',
+  upload.single('icon'),
+  [
+    // username must be an email
+    check('name')
+      .not()
+      .isEmpty(),
+    check('skill')
+      .not()
+      .isEmpty()
+  ],
+  (req, res, next) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req)
+    if(!req.file){
+      return res.send({
+        code: 400,
+        msg: '头像是必须的哦'
+      })
+    }
+    if (errors.isEmpty()) {
+      return next()
+    }
+    const {filename} = req.file
+
+    // 删除头像
+    try {
+      fs.unlinkSync(path.join(__dirname,'../static/imgs',filename))
+    } catch (err) {
+      
+    }
+    // console.log(errors);
+    res.send({
+      code: 400,
+      msg: 'name，或skill不能为空哦'
+    })
+  },
+  heroController.add
 )
 
 module.exports = router
