@@ -8,7 +8,7 @@ module.exports = {
         fs.readFileSync(path.join(__dirname, '../data/hero.json'), 'utf8')
       )
       heros.push({
-        id: heros.length,
+        id: heros.length+1,
         name,
         skill,
         icon,

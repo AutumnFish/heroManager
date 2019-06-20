@@ -12,19 +12,5 @@
     "skill": "种蘑菇",
     "isDelete": false,
     "icon": "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/b21bb051f81986189a5285244bed2e738bd4e67d.jpg"
-  },
-  {
-    "id": 2,
-    "name": "fly",
-    "skill": "niu",
-    "icon": "http://localhost:4399/imgs/f1afb0aafc67c03d50ba605bdec55eb7",
-    "isDelete": false
-  },
-  {
-    "id": 3,
-    "name": "上天",
-    "skill": "牛逼",
-    "icon": "http://localhost:4399/imgs/57196f3d267361cc40688f7ca87bf6e2",
-    "isDelete": false
   }
 ]
