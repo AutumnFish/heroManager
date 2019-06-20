@@ -8,7 +8,7 @@ module.exports = {
         fs.readFileSync(path.join(__dirname, '../data/hero.json'), 'utf8')
       )
       heros.push({
-        id: heros.length+1,
+        id: heros.length + 1,
         name,
         skill,
         icon,
@@ -69,6 +69,36 @@ module.exports = {
         return v.id == id
       })[0]
       deleteHero.isDelete = true
+      fs.writeFileSync(
+        path.join(__dirname, '../data/hero.json'),
+        JSON.stringify(heros)
+      )
+      return true
+    } catch (error) {
+      return false
+    }
+  },
+  update({ id, name, skill, icon }) {
+    try {
+      let heros = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '../data/hero.json'), 'utf8')
+      )
+      let updateHero = heros.filter(v => {
+        return v.id == id
+      })[0]
+      console.log(updateHero)
+      updateHero.name = name
+      updateHero.skill = skill
+      try {
+        fs.unlinkSync(
+          path.join(
+            __dirname,
+            '../static/imgs/',
+            path.basename(updateHero.icon)
+          )
+        )
+      } catch (error) {}
+      updateHero.icon = icon
       fs.writeFileSync(
         path.join(__dirname, '../data/hero.json'),
         JSON.stringify(heros)

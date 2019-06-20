@@ -58,7 +58,7 @@ router.post(
   (req, res, next) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req)
-    if(!req.file){
+    if (!req.file) {
       return res.send({
         code: 400,
         msg: '头像是必须的哦'
@@ -67,14 +67,12 @@ router.post(
     if (errors.isEmpty()) {
       return next()
     }
-    const {filename} = req.file
+    const { filename } = req.file
 
     // 删除头像
     try {
-      fs.unlinkSync(path.join(__dirname,'../static/imgs',filename))
-    } catch (err) {
-      
-    }
+      fs.unlinkSync(path.join(__dirname, '../static/imgs', filename))
+    } catch (err) {}
     // console.log(errors);
     res.send({
       code: 400,
@@ -105,6 +103,49 @@ router.get(
     })
   },
   heroController.delete
+)
+
+// 编辑
+router.post(
+  '/update',
+  upload.single('icon'),
+  [
+    // username must be an email
+    check('name')
+      .not()
+      .isEmpty(),
+    check('skill')
+      .not()
+      .isEmpty(),
+    check('id')
+      .not()
+      .isEmpty()
+  ],
+  (req, res, next) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req)
+    if (!req.file) {
+      return res.send({
+        code: 400,
+        msg: '头像是必须的哦'
+      })
+    }
+    if (errors.isEmpty()) {
+      return next()
+    }
+    const { filename } = req.file
+
+    // 删除头像
+    try {
+      fs.unlinkSync(path.join(__dirname, '../static/imgs', filename))
+    } catch (err) {}
+    // console.log(errors);
+    res.send({
+      code: 400,
+      msg: 'name，或skill或id不能为空哦'
+    })
+  },
+  heroController.update
 )
 
 module.exports = router
