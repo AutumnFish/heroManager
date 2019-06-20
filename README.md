@@ -103,6 +103,31 @@ http://localhost:4399
 
 ### 根据id获取英雄
 
+> 根据id获取英雄
+
+- 请求地址：/hero/id
+- 请求方法：get
+- 请求参数：id
+
+- 响应内容：查询的结果
+
+```json
+{
+  "code": 200,
+  "msg": "获取成功",
+  "data": {
+    "id": 1,
+    "icon": "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/4ec2d5628535e5dda58eae977ec6a7efcf1b62d3.jpg",
+    "name": "亚索",
+    "skill": "风一样的男子"
+  }
+}
+```
+
+
+
+
+
 ### 英雄新增
 
 ### 英雄删除

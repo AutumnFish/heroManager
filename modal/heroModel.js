@@ -22,5 +22,16 @@ module.exports = {
     } catch (error) {
       return false
     }
+  },
+  // 根据id获取英雄
+  id({ id }) {
+    try{
+      const filterOne = this.all().filter(v => {
+        return id == v.id
+      })
+      return filterOne[0]
+    }catch(err){
+      return false
+    }
   }
 }
