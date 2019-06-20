@@ -42,27 +42,64 @@ http://localhost:4399
 
 - 响应内容：该用户名是否可用
 
-### 用户注册
+```json
+{
+  "code": 400,
+  "msg": "用户名或密码格式不对，请检查"
+}
+```
+
+
+
+### 用户注册（未完成）
 
 > 注册用户
 
-- 请求地址：https://autumnfish.cn/api/user/register
+- 请求地址：/user/register
 - 请求方法：post
-- 请求参数：username
+- 请求参数：username,password
 
 | 参数名   | 参数说明 | 备注                                          |
 | :------- | :------- | :-------------------------------------------- |
 | username | 用户名   | 不能为空,通过 send 方法传递，格式为 key=value |
-
-```js
-xhr.send('username=xxx')
-```
+| password | 密码     | 不能为空                                      |
 
 - 响应内容：注册成功或失败
 
 ## 英雄
 
 ### 所有英雄
+
+> 获取所有英雄
+
+- 请求地址：/hero/all
+- 请求方法：get
+- 请求参数：无
+
+- 响应内容：所有的英雄
+
+```json
+{
+  "code": 200,
+  "msg": "数据获取成功",
+  "data": [
+    {
+      "id": 1,
+      "icon": "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/4ec2d5628535e5dda58eae977ec6a7efcf1b62d3.jpg",
+      "name": "亚索",
+      "skill": "风一样的男子"
+    },
+    {
+      "id": 2,
+      "icon": "https://ss1.baidu.com/70cFfyinKgQFm2e88IuM_a/forum/pic/item/b21bb051f81986189a5285244bed2e738bd4e67d.jpg",
+      "name": "提莫",
+      "skill": "种蘑菇"
+    }
+  ]
+}
+```
+
+
 
 ### 根据id获取英雄
 
