@@ -124,12 +124,12 @@ router.post(
   (req, res, next) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req)
-    if (!req.file) {
-      return res.send({
-        code: 400,
-        msg: '头像是必须的哦'
-      })
-    }
+    // if (!req.file) {
+    //   return res.send({
+    //     code: 400,
+    //     msg: '头像是必须的哦'
+    //   })
+    // }
     if (errors.isEmpty()) {
       return next()
     }

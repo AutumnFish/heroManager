@@ -1,36 +1,42 @@
 const path = require('path')
 const fs = require('fs')
 const heroModel = require(path.join(__dirname, '../modal/heroModel'))
-// 基地址
-const baseURL = 'http://localhost:4399/imgs/'
 module.exports = {
   all(req, res) {
-    const heros = heroModel.all()
-    if (heros) {
-      return res.send({
-        code: 200,
-        msg: '数据获取成功',
-        data: heros
-      })
-    }
-    res.send({
-      code: 400,
-      msg: '获取失败，请重试'
+    heroModel.all((err, data) => {
+      if (err == null) {
+        res.send({
+          code: 200,
+          msg: '获取成功',
+          data
+        })
+      } else {
+        console.log(err)
+        res.send({
+          code: 400,
+          msg: '获取失败'
+        })
+      }
     })
   },
   id(req, res) {
     // res.send('id')
-    const data = heroModel.id({ id: req.query.id })
-    if (data) {
-      return res.send({
-        code: 200,
-        msg: '获取成功',
-        data
-      })
-    }
-    res.send({
-      code: 400,
-      code: '获取失败'
+    heroModel.id({
+      id: req.query.id,
+      callback(err, data) {
+        if (err == null && data.length != 0) {
+          res.send({
+            msg: '获取成功',
+            code: 200,
+            data: data[0]
+          })
+        } else {
+          res.send({
+            msg: 'id可能不对哦',
+            code: 400
+          })
+        }
+      }
     })
   },
   add(req, res) {
@@ -38,65 +44,70 @@ module.exports = {
     // 获取信息
     const { skill, name } = req.body
     const { filename } = req.file
-    const icon = baseURL + filename
-    if (
-      heroModel.add({
-        skill,
-        name,
-        icon
-      })
-    ) {
-      return res.send({
-        code: 201,
-        msg: '新增成功'
-      })
-    }
-    res.send({
-      code: 400,
-      msg: '新增失败,请检查'
+    const icon = `imgs/${filename}`
+    console.log(icon)
+    heroModel.add({
+      skill,
+      name,
+      filename,
+      icon,
+      callback(err, data) {
+        if (err == null) {
+          res.send({
+            code: 201,
+            msg: '新增成功'
+          })
+        } else {
+          res.send({
+            code: 400,
+            msg: '失败了哦，请检查'
+          })
+        }
+      }
     })
   },
   delete(req, res) {
     // res.send("/delete")
-    if (heroModel.delete({ id: req.query.id })) {
-      return res.send({
-        code: 204,
-        msg: '删除成功'
-      })
-    }
-    res.send({
-      code: 400,
-      msg: '删除失败'
+    heroModel.delete({
+      id: req.query.id,
+      callback(err, data) {
+        if (err == null) {
+          res.send({
+            code: 204,
+            msg: '删除成功'
+          })
+        } else {
+          console.log(err)
+          res.send({
+            code: 400,
+            msg: '删除失败'
+          })
+        }
+      }
     })
   },
   update(req, res) {
     // res.send('update')
-    const {skill,name,id}=req.body
-    const {filename} = req.file
-    const icon = baseURL+filename
-
-    console.log(icon);
-
-    if(heroModel.update({
-      id,name,skill,icon
-    })){
-      return res.send({
-        code:202,
-        msg:'修改成功'
-      })
+    const { skill, name, id } = req.body
+    let icon = undefined
+    if(req.file){
+      icon =`imgs/${req.file.filename}`  
     }
-    try {
-      fs.unlinkSync(
-        path.join(
-          __dirname,
-          '../static/imgs/',
-         filename
-        )
-      )
-    } catch (error) {}
-    res.send({
-      code:400,
-      msg:'修改失败'
+    heroModel.update({
+      id,skill,name,icon,callback(err,results){
+        if(err==null){
+          res.send({
+            code:202,
+            msg:'修改成功'
+          })
+        }else{
+          console.log(err)
+          res.send({
+            code:400,
+            msg:'修改失败'
+          })
+        }
+      }
     })
   }
 }
